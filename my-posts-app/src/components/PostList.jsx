@@ -171,7 +171,7 @@ const PostList = () => {
           </tbody>
         </Table>
       )}
-      <div>
+      <InputContainer style={{gap: '5px'}}>
         <Input
           type="text"
           placeholder="Nombre"
@@ -185,7 +185,7 @@ const PostList = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <Button onClick={handleCreatePost}>Crear</Button>
-      </div>
+      </InputContainer>
     </Container>
   );
 };

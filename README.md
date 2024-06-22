@@ -59,7 +59,7 @@ npm run sequelize db:migrate
 # Iniciar el servidor backend
 ```bash
 cd backend
-npm start
+node index.js
 ```
 ç
 # Iniciar el servidor frontend (si es una aplicación de React)

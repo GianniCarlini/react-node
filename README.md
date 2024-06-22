@@ -3,11 +3,11 @@
 Aplicación con React, Nodejs, Redux y PSQL para manejo de posts.
 
 ## Estructura del Repositorio
-/
-  /my-post-app        # Código del frontend (React)
-  /backend            # Código del backend (Node.js, Sequelize)
-  README.md           # Información general del proyecto
 
+.
+├── my-post-app         # Código del frontend (React)
+├── backend             # Código del backend (Node.js, Sequelize)
+└── README.md           # Información general del proyecto
 
 ## Clonar el Repositorio
 

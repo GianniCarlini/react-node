@@ -61,12 +61,18 @@ const PostList = () => {
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [filter, setFilter] = useState('');
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
     if (postStatus === 'idle') {
       dispatch(fetchPosts());
     }
   }, [postStatus, dispatch]);
+
+  useEffect(() => {
+    setFilteredPosts(posts);
+  }, [posts]);
 
   const handleCreatePost = () => {
     if (name && description) {
@@ -80,31 +86,54 @@ const PostList = () => {
     dispatch(deletePost(id));
   };
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const handleFilterPosts = () => {
+    setFilteredPosts(posts.filter(post =>
+      post.name.toLowerCase().includes(filter.toLowerCase())
+    ));
+  };
+
   return (
     <Container>
       <h2>Posts</h2>
       {postStatus === 'loading' && <div>Loading...</div>}
       {postStatus === 'failed' && <div>{error}</div>}
-      <Table>
-        <thead>
-          <tr>
-            <Th>Nombre</Th>
-            <Th>Descripción</Th>
-            <Th>Acción</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map(post => (
-            <tr key={post.id}>
-              <Td>{post.name}</Td>
-              <Td>{post.description}</Td>
-              <Td>
-                <Button onClick={() => handleDeletePost(post.id)}>Eliminar</Button>
-              </Td>
+      
+      <div>
+        <Input
+          type="text"
+          placeholder="Filtro de Nombre"
+          value={filter}
+          onChange={handleFilterChange}
+        />
+        <Button onClick={handleFilterPosts}>Buscar</Button>
+      </div>
+
+      {Array.isArray(filteredPosts) && (
+        <Table>
+          <thead>
+            <tr>
+              <Th>Nombre</Th>
+              <Th>Descripción</Th>
+              <Th>Acción</Th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {filteredPosts.map(post => (
+              <tr key={post.id}>
+                <Td>{post.name}</Td>
+                <Td>{post.description}</Td>
+                <Td>
+                  <Button onClick={() => handleDeletePost(post.id)}>Eliminar</Button>
+                </Td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
       <div>
         <Input
           type="text"

@@ -51,8 +51,9 @@ npm install
 createdb nombre_de_la_base_de_datos
 
 # Ejecutar migraciones
+```bash
 npm run sequelize db:migrate
-
+```
 
 ## Ejecución de la Aplicación
 

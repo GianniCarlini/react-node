@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, createPost, deletePost } from '../store/postsSlice';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
   padding: 20px;
@@ -28,11 +30,37 @@ const Td = styled.td`
   text-align: center;
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  flex: 1;
+`;
+
 const Input = styled.input`
-  margin-right: 10px;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const ClearIcon = styled(FontAwesomeIcon)`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #007bff;
+
+  &:hover {
+    color: #0056b3;
+  }
 `;
 
 const Button = styled.button`
@@ -42,6 +70,7 @@ const Button = styled.button`
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  margin-left: 10px;
 
   &:hover {
     background-color: #0056b3;
@@ -96,21 +125,29 @@ const PostList = () => {
     ));
   };
 
+  const handleClearFilter = () => {
+    setFilter('');
+    setFilteredPosts(posts);
+  };
+
   return (
     <Container>
       <h2>Posts</h2>
       {postStatus === 'loading' && <div>Loading...</div>}
       {postStatus === 'failed' && <div>{error}</div>}
       
-      <div>
-        <Input
-          type="text"
-          placeholder="Filtro de Nombre"
-          value={filter}
-          onChange={handleFilterChange}
-        />
+      <InputContainer>
+        <InputWrapper>
+          <Input
+            type="text"
+            placeholder="Filtro de Nombre"
+            value={filter}
+            onChange={handleFilterChange}
+          />
+          {filter && <ClearIcon icon={faTimes} onClick={handleClearFilter} />}
+        </InputWrapper>
         <Button onClick={handleFilterPosts}>Buscar</Button>
-      </div>
+      </InputContainer>
 
       {Array.isArray(filteredPosts) && (
         <Table>

@@ -13,7 +13,6 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Definir un modelo de ejemplo
 const Post = sequelize.define('Post', {
   name: {
     type: DataTypes.STRING,
@@ -25,7 +24,6 @@ const Post = sequelize.define('Post', {
   }
 });
 
-// Rutas de ejemplo
 app.get('/posts', async (req, res) => {
   const posts = await Post.findAll();
   res.json(posts);
@@ -42,7 +40,6 @@ app.delete('/posts/:id', async (req, res) => {
   res.sendStatus(204);
 });
 
-// Sincronizar con la base de datos y iniciar el servidor
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

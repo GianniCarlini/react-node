@@ -17,33 +17,34 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (id) => {
 });
 
 const postsSlice = createSlice({
-  name: 'posts',
-  initialState: {
-    posts: [],
-    status: 'idle',
-    error: null
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchPosts.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.posts = action.payload;
-      })
-      .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(createPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload);
-      })
-      .addCase(deletePost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter(post => post.id !== action.payload);
-      });
-  }
-});
+    name: 'posts',
+    initialState: {
+      posts: [],
+      status: 'idle',
+      error: null
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchPosts.pending, (state) => {
+          state.status = 'loading';
+        })
+        .addCase(fetchPosts.fulfilled, (state, action) => {
+          state.status = 'succeeded';
+          state.posts = Array.isArray(action.payload) ? action.payload : [];
+        })
+        .addCase(fetchPosts.rejected, (state, action) => {
+          state.status = 'failed';
+          state.error = action.error.message;
+        })
+        .addCase(createPost.fulfilled, (state, action) => {
+          state.posts.push(action.payload);
+        })
+        .addCase(deletePost.fulfilled, (state, action) => {
+          state.posts = state.posts.filter(post => post.id !== action.payload);
+        });
+    }
+  });
+  
 
 export default postsSlice.reducer;
